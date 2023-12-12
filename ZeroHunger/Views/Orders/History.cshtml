@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "CollectionHistory";
+}
+
+<h1 class="text-center">Collection History</h1>
+
+<div>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Order Id</th>
+            <th>Restaurant Name</th>
+            <th>Collected By</th>
+            <th>Collection & Distribution Time</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Order_Id</td>
+                <td>@item.Restaurant.Name</td>
+                <td>@item.Employee.Name</td>
+                <td class="time">@item.Collection_Time</td>
+            </tr>
+        }
+    </table>
+</div>

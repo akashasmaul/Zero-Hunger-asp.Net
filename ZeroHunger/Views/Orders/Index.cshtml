@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Orders";
+}
+
+<h1 class="text-center">Collect & Distribute Requests by Employees</h1>
+
+<div>
+    @if (Model.Count == 0)
+    {
+        <h3 class="text-center">No orders available to collect!</h3>
+    }
+    else
+    {
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Request Id</th>
+                <th>Restaurant Name</th>
+                <th>Request Description</th>
+                <th>Ordered Employee</th>
+                <th>Expire In</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                var expiry = item.Request.Expiry_Date - DateTime.Now;
+                var expireIn = expiry < TimeSpan.Zero
+                    ? "Expired!"
+                    : $"{expiry.Days}d, {expiry.Hours}h, {expiry.Minutes}m";
+
+                <tr>
+                    <td>@item.Request_Id</td>
+                    <td>@item.Request.Restaurant.Name</td>
+                    <td>@item.Request.Description</td>
+                    <td>@item.Employee.Name</td>
+                    <td>@expireIn</td>
+                    @if (expireIn == "Expired!")
+                    {
+                        <td>Expired!</td>
+                    }
+                    else
+                    {
+                        <td><a href="/Orders/Collect/@item.Id" class="btn btn-primary">Collect & Distribute</a></td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+
+@*var pendingOrders = item.Orders.Count - item.Histories.Count;*@

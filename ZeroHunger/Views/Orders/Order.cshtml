@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Order";
+}
+
+<h1>Assign Employees to Collect & Distribute</h1>
+<div>
+    <p style="font-size: large">
+        <b>Request Description:</b> @Model.Description<br>
+        <b>Expiry Date:</b> <span class="time">@Model.Expiry_Date</span><br>
+        <b>Restaurant Name:</b> @Model.Restaurant.Name<br>
+        <b>Restaurant Location:</b> @Model.Restaurant.Location<br>
+    </p>
+
+    @if (Model.Status == "Collected")
+    {
+        <h1>This order has already been collected.</h1>
+    }
+    else if (Model.Status == "Pending")
+    {
+        <h1>This order has already been sent to an employee.</h1>
+    }
+    else
+    {
+        <h2 class="text-center">Employees List</h2>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Employee Name</th>
+                <th>Email</th>
+                <th>Total Orders</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in ViewBag.Employees)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.Orders.Count</td>
+                    <td>
+                        <a href="/Orders/SendOrder?id=@item.Id&requestId=@Model.Id" class="btn btn-primary">Assign Employee</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
